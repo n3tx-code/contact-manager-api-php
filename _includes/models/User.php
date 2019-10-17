@@ -8,37 +8,40 @@ class User
     private $email;
     private $token;
 
-    function signIn($email, $pwd1, $pwd2)
+    function signIn($email1, $email2, $pwd1, $pwd2)
     {
-        if(!empty($email))
+        if(!empty($email1) AND !empty($email2))
         {
-            $email = htmlspecialchars($email);
-            if(emailIsUnique($email))
+            if($email1 == $email2)
             {
-                if(!empty($pwd1) AND !empty($pwd2)) {
-                    if ($pwd1 == $pwd2) {
-                        $pwd = hash('sha256', $pwd1);
-                        $create_user = $GLOBALS['bdd']->prepare("INSERT INTO user (email, pwd, token) VALUES (?, ?, ?) ");
-                        $create_user->execute(array($email, $pwd, generateToken()));
-                        if ($create_user->errorCode() == "00000") {
-                            return true;
+                $email = htmlspecialchars($email1);
+                if(emailIsUnique($email))
+                {
+                    if(!empty($pwd1) AND !empty($pwd2)) {
+                        if ($pwd1 == $pwd2) {
+                            $pwd = hash('sha256', $pwd1);
+                            $create_user = $GLOBALS['bdd']->prepare("INSERT INTO user (email, pwd, token) VALUES (?, ?, ?) ");
+                            $create_user->execute(array($email, $pwd, generateToken()));
+                            if ($create_user->errorCode() == "00000") {
+                                return true;
+                            }
+                            return "Erreur lors de la création de l'utilisateur";
                         }
-                        return "Erreur lors de la création de l'utilisateur";
+                        else
+                        {
+                            return "Mot de passe différent";
+                        }
                     }
                     else
                     {
-                        return "Mot de passe différent";
+                        return "Merci de remplir tous les champs";
                     }
+
                 }
                 else
                 {
-                    return "Merci de remplir tous les champs";
+                    return "Adresse mail déjà utilisée";
                 }
-
-            }
-            else
-            {
-                return "Adresse mail déjà utilisée";
             }
         }
         else
