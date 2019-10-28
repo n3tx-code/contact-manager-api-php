@@ -8,6 +8,11 @@ class User
     private $email;
     private $token;
 
+    function getID()
+    {
+        return $this->ID;
+    }
+
     function signIn($email1, $email2, $pwd1, $pwd2)
     {
         if(!empty($email1) AND !empty($email2))
@@ -82,6 +87,20 @@ class User
     function getToken()
     {
         return $this->token;
+    }
+
+    function getUserByToken($token)
+    {
+        $get_user = $GLOBALS['bdd']->prepare("SELECT * FROM user WHERE token = ?");
+        $get_user->execute(array($token));
+        $user = $get_user->fetch();
+        if($user)
+        {
+            $this->token = $token;
+            $this->ID = $user['ID'];
+            $this->email = $user['email'];
+        }
+        return false;
     }
 }
 
