@@ -99,6 +99,7 @@ class User
             $this->token = $token;
             $this->ID = $user['ID'];
             $this->email = $user['email'];
+            return true;
         }
         return false;
     }

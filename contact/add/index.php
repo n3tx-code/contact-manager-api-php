@@ -59,11 +59,10 @@ if(isset($_POST['token']))
         }
         if(isset($_FILES['imgContact']))
         {
-            var_dump($_FILES['imgContact']);
             $img = addslashes (file_get_contents($_FILES['imgContact']['tmp_name']));
         }
         $contact = new Contact();
-        $add_contact_status = $contact->create($token, $forname, $name, $phonePro, $phonePerso, $emailPro, $emailPerso, $linkendin,
+        $add_contact_status = $contact->add($token, $forname, $name, $phonePro, $phonePerso, $emailPro, $emailPerso, $linkendin,
             $facebook, $twitter, $website, $img);
         echo $add_contact_status;
 
