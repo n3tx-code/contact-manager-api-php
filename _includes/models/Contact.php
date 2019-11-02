@@ -128,7 +128,8 @@ class Contact
                 facebook = ?,
                 twitter = ?,
                 website = ?,
-                contact_img = ?
+                contact_img = ?,
+                last_modification_date = ?
                 WHERE ID = ? AND ID_owner = ?");
                 $update_contact->execute(array(
                     $name,
@@ -142,6 +143,7 @@ class Contact
                     $twitter,
                     $website,
                     $img,
+                    date("Y-m-d H:i:s"),
                     $contact_ID,
                     $user->getID(),
                 ));
