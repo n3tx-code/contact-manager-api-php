@@ -167,6 +167,30 @@ class Contact
             return json_encode(array('error' => 'Utilisateur inconnue'));
         }
     }
+
+    function delete($token, $ID_contact, $ID_owner)
+    {
+        $user = new User();
+        $user->getUserByToken($token);
+        if($user->getID() == $ID_owner)
+        {
+            $delete_contact = $GLOBALS['bdd']->prepare("DELETE FROM contact WHERE ID = ?");
+            $delete_contact->execute(array($ID_contact));
+
+            if($delete_contact->errorCode() == '00000')
+            {
+                return "Contact deleted";
+            }
+            else
+            {
+                return json_encode(array('error' => 'Erreur lors du contact. Merci d\'essayer à nouveau.'));
+            }
+        }
+        else
+        {
+            return json_encode(array('error' => 'Utilisateur inconnue'));
+        }
+    }
 }
 
 function getAllContacts($userID)
