@@ -62,7 +62,7 @@ class User
         {
             $email = htmlspecialchars($email);
             $pwd = $pwd = hash('sha256', $pwd);
-            $req_user = $GLOBALS['bdd']->prepare("SELECT * FROM user WHERE email = ? AND pwd = ?");
+            $req_user = $GLOBALS['bdd']->prepare("SELECT * FROM user_cm WHERE email = ? AND pwd = ?");
             $req_user->execute(array($email, $pwd));
             $user = $req_user->fetch();
             if($user)
@@ -91,7 +91,7 @@ class User
 
     function getUserByToken($token)
     {
-        $get_user = $GLOBALS['bdd']->prepare("SELECT * FROM user WHERE token = ?");
+        $get_user = $GLOBALS['bdd']->prepare("SELECT * FROM user_cm WHERE token = ?");
         $get_user->execute(array($token));
         $user = $get_user->fetch();
         if($user)
@@ -107,7 +107,7 @@ class User
 
 function emailIsUnique($email)
 {
-    $req_email = $GLOBALS['bdd']->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
+    $req_email = $GLOBALS['bdd']->prepare("SELECT COUNT(*) FROM user_cm WHERE email = ?");
     $req_email->execute(array($email));
 
     if($req_email->fetchColumn() == 0)
@@ -131,7 +131,7 @@ function generateToken()
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
 
-        $req_token = $GLOBALS['bdd']->prepare("SELECT COUNT(*) FROM user WHERE token = ?");
+        $req_token = $GLOBALS['bdd']->prepare("SELECT COUNT(*) FROM user_cm WHERE token = ?");
         $req_token->execute(array($randomString));
         if($req_token->fetchColumn() == 0)
         {
