@@ -25,7 +25,7 @@ class User
                     if(!empty($pwd1) AND !empty($pwd2)) {
                         if ($pwd1 == $pwd2) {
                             $pwd = hash('sha256', $pwd1);
-                            $create_user = $GLOBALS['bdd']->prepare("INSERT INTO user (email, pwd, token) VALUES (?, ?, ?) ");
+                            $create_user = $GLOBALS['bdd']->prepare("INSERT INTO user_cm (email, pwd, token) VALUES (?, ?, ?) ");
                             $create_user->execute(array($email, $pwd, generateToken()));
                             if ($create_user->errorCode() == "00000") {
                                 return true;
