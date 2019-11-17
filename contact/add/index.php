@@ -19,7 +19,6 @@ if(isset($_POST['token']))
         $facebook = null;
         $twitter = null;
         $website = null;
-        $img = null;
 
         if(isset($_POST['name']))
         {
@@ -57,13 +56,9 @@ if(isset($_POST['token']))
         {
             $website = htmlspecialchars($_POST['website']);
         }
-        if(isset($_FILES['imgContact']))
-        {
-            $img = addslashes (file_get_contents($_FILES['imgContact']['tmp_name']));
-        }
         $contact = new Contact();
         $add_contact_status = $contact->add($token, $forname, $name, $phonePro, $phonePerso, $emailPro, $emailPerso, $linkendin,
-            $facebook, $twitter, $website, $img);
+            $facebook, $twitter, $website);
         echo $add_contact_status;
 
     }

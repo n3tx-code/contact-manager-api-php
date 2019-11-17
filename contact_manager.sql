@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  sam. 02 nov. 2019 à 11:57
+-- Généré le :  Dim 17 nov. 2019 à 13:13
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.3.1
 
@@ -42,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `facebook` varchar(255) DEFAULT NULL,
   `twitter` varchar(255) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
-  `contact_img` longblob,
   `last_modification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

@@ -17,11 +17,10 @@ class Contact
     public $facebook;
     public $twitter;
     public $website;
-    public $img;
     public $lastModification;
 
     function create($id, $ID_owner, $forname, $name, $phonePro, $phonePerso, $emailPro, $emailPerso, $linkendin, $facebook, $twitter,
-                    $website, $img, $last_modification)
+                    $website, $last_modification)
     {
         $this->ID = $id;
         $this->ID_owner = $ID_owner;
@@ -35,12 +34,11 @@ class Contact
         $this->facebook = $facebook;
         $this->twitter = $twitter;
         $this->website =  $website;
-        $this->img = $img;
         $this->lastModification = $last_modification;
     }
     
     function add($token, $forname, $name = null, $phonePro = null, $phonePerso = null, $emailPro = null, $emailPerso = null,
-        $linkendin = null, $facebook = null, $twitter = null, $website = null, $img = null)
+        $linkendin = null, $facebook = null, $twitter = null, $website = null)
     {
         if($emailPerso)
         {
@@ -61,8 +59,8 @@ class Contact
         if($user->getUserByToken($token))
         {
             $update_contact = $GLOBALS['bdd']->prepare("INSERT INTO contact (ID_owner, name, forname, phone_pro, phone_perso, 
-            email_pro, email_perso, linkendin, facebook, twitter, website, contact_img)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            email_pro, email_perso, linkendin, facebook, twitter, website)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             $update_contact->execute(array(
                 $user->getID(),
                 $name,
@@ -75,7 +73,6 @@ class Contact
                 $facebook,
                 $twitter,
                 $website,
-                $img
             ));
             if($update_contact->errorCode() == '00000')
             {
@@ -94,7 +91,7 @@ class Contact
     }
 
     function update($token, $contact_ID, $ID_owner, $forname, $name = null, $phonePro = null, $phonePerso = null, $emailPro = null, $emailPerso = null,
-                 $linkendin = null, $facebook = null, $twitter = null, $website = null, $img = null)
+                 $linkendin = null, $facebook = null, $twitter = null, $website = null)
     {
         if($emailPerso)
         {
@@ -128,7 +125,6 @@ class Contact
                 facebook = ?,
                 twitter = ?,
                 website = ?,
-                contact_img = ?,
                 last_modification_date = ?
                 WHERE ID = ? AND ID_owner = ?");
                 $update_contact->execute(array(
@@ -142,7 +138,6 @@ class Contact
                     $facebook,
                     $twitter,
                     $website,
-                    $img,
                     date("Y-m-d H:i:s"),
                     $contact_ID,
                     $user->getID(),
@@ -202,9 +197,9 @@ function getAllContacts($userID)
     foreach ($sql_contacts as &$contact)
     {
         $c = new Contact();
-        $c->create($contact['ID'], $userID, $contact['forname'], $contact['name'], $contact['phone_pro'], $contact['phone_perso'],$contact['email_pro'],
-            $contact['email_perso'],  $contact['linkendin'],  $contact['facebook'], $contact['twitter'], $contact['website'],
-            $contact['contact_img'], $contact['last_modification_date']);
+        $c->create($contact['ID'], $userID, $contact['forname'], $contact['name'], $contact['phone_pro'],
+            $contact['phone_perso'],$contact['email_pro'], $contact['email_perso'],  $contact['linkendin'],
+            $contact['facebook'], $contact['twitter'], $contact['website'], $contact['last_modification_date']);
         array_push($contacts, $c);
     }
     return $contacts;

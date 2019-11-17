@@ -21,7 +21,6 @@ if(isset($_POST['token']) AND isset($_POST['ID']) AND isset($_POST['ID_owner']))
         $facebook = null;
         $twitter = null;
         $website = null;
-        $img = null;
 
         if(isset($_POST['name']))
         {
@@ -59,13 +58,9 @@ if(isset($_POST['token']) AND isset($_POST['ID']) AND isset($_POST['ID_owner']))
         {
             $website = htmlspecialchars($_POST['website']);
         }
-        if(isset($_FILES['imgContact']))
-        {
-            $img = addslashes (file_get_contents($_FILES['imgContact']['tmp_name']));
-        }
         $contact = new Contact();
         $update_contact_status = $contact->update($token, $ID_contact, $ID_owner,  $forname, $name, $phonePro, $phonePerso, $emailPro, $emailPerso, $linkendin,
-            $facebook, $twitter, $website, $img);
+            $facebook, $twitter, $website);
         echo $update_contact_status;
     }
     else
